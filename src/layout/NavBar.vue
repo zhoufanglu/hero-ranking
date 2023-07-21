@@ -3,13 +3,13 @@
   // 获取当前日期时间
   const currentDateTime = moment()
 
-  // 获取当前月份（注意：月份是从0开始计数的，0表示1月，1表示2月，以此类推）
-  const currentMonth = currentDateTime.month()
+  // 获取当前年份
+  const currentYear = currentDateTime.year()
 </script>
 
 <template>
   <div class="nav-bar">
-    <div class="left-nav"> hand rush record ( {{ currentMonth + 1 }} 月 排名) </div>
+    <div class="left-nav"> hand rush record ( {{ currentYear }}) </div>
     <div class="right-nav">
       <div class="user">
         <i class="iconfont user-icon">&#xe603;</i>
