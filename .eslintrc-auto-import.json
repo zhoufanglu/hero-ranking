@@ -79,6 +79,8 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "useUserStore": true
+    "useUserStore": true,
+    "confirmDialog": true,
+    "ElMessage": true
   }
 }

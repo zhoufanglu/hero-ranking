@@ -2,9 +2,10 @@
   import moment from 'moment'
   // 获取当前日期时间
   const currentDateTime = moment()
-
+  const userStore = useUserStore()
   // 获取当前年份
   const currentYear = currentDateTime.year()
+  userStore.setCurrentYear(String(currentYear))
 </script>
 
 <template>

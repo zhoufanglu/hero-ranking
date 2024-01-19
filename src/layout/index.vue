@@ -1,3 +1,17 @@
+<script setup lang="ts">
+  import NavBar from '@/layout/NavBar.vue'
+  import moment from 'moment'
+  /** ****************** **月份***********************/
+  const monthList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+  const curMonth = monthList[moment().month()]
+
+  const handleTabChange = (name: string) => {
+    // console.log(37, name)
+  }
+  const userStore = useUserStore()
+  userStore.setCurrentMonth(curMonth)
+</script>
+
 <template>
   <div class="p-layout">
     <div class="nav-bar">
@@ -5,11 +19,16 @@
     </div>
     <section>
       <div class="side-bar">
-        <el-tabs tab-position="left" style="height: 100vh" :model-value="curMonth">
+        <el-tabs
+          v-model="userStore.currentMonth"
+          tab-position="left"
+          style="height: 100vh"
+          @tab-change="handleTabChange"
+        >
           <el-tab-pane
             v-for="(mon, index) in monthList"
             :key="index"
-            :name="index + 1"
+            :name="mon"
             :label="`${mon} 月`"
           ></el-tab-pane>
         </el-tabs>
@@ -24,14 +43,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-  import NavBar from '@/layout/NavBar.vue'
-  import moment from 'moment'
-  /** ****************** **月份***********************/
-  const monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  const curMonth = monthList[moment().month()]
-</script>
 
 <style scoped lang="scss">
   .p-layout {

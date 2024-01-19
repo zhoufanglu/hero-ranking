@@ -30,3 +30,35 @@ export function insertUser(data: any): any {
     data,
   })
 }
+
+export function delUser(data: any): any {
+  return axios({
+    url: '/user/delete',
+    method: 'post',
+    data,
+  })
+}
+
+export function getUsers(params: any): any {
+  return axios({
+    url: '/user/list',
+    method: 'get',
+    params,
+  })
+}
+
+export function insertRecord(data: { userId: string; createAt: string }): any {
+  return axios({
+    url: '/record/insert',
+    method: 'post',
+    data,
+  })
+}
+
+export function delRecord(data: { id: string }): any {
+  return axios({
+    url: '/record/delete',
+    method: 'post',
+    data,
+  })
+}

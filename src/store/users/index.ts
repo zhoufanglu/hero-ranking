@@ -6,10 +6,18 @@ const useUserStore = defineStore({
   state: () => ({
     userInfo: { password: '', username: '', token: '' } as UserType,
     isRemember: false,
+    currentYear: '',
+    currentMonth: '',
   }),
   actions: {
     setUserInfo(userInfo: UserType | {}) {
       this.userInfo = userInfo
+    },
+    setCurrentYear(year: string) {
+      this.currentYear = year
+    },
+    setCurrentMonth(month: string) {
+      this.currentMonth = month
     },
     async logout() {
       // 清除缓token

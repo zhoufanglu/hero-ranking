@@ -1,7 +1,19 @@
 import moment from 'moment'
-import axios from 'axios'
+import confirmDialog from '@/tools/confirmDialog'
+import { delUser, getUsers } from '@/service/api/modules/users'
+import { delRecord, insertRecord } from '@/service/api/modules/users'
+import type { UserItemType } from '@/views/record/types'
 
 const useRecord = () => {
+  // 绑定变量
+  const variables = reactive<{
+    userList: UserItemType[]
+    loading: boolean
+  }>({
+    userList: [],
+    loading: false,
+  })
+
   const currentDate = moment().format('YYYY-MM-DD')
   const curDayOnlyDay = currentDate.substring(currentDate.length - 2)
   function generateDateList() {
@@ -52,17 +64,51 @@ const useRecord = () => {
     return maxDiff
   }
 
-  const getDataByJson = () => {
-    return axios.get('/data.json')
+  // ? 获取用户列表
+  const loadList = () => {
+    variables.loading = true
+    getUsers({})
+      .then(({ data }: { data: any }) => {
+        variables.userList = data.map((per: any) => {
+          return {
+            id: per.id,
+            name: per.name,
+            rushDates: [],
+          }
+        })
+      })
+      .finally(() => {
+        variables.loading = false
+      })
+  }
+  loadList()
+
+  const handleDelUser = (id: string) => {
+    confirmDialog().then(() => {
+      delUser({ id }).then(() => {
+        loadList()
+        ElMessage.success('删除成功')
+      })
+    })
   }
 
+  const userStore = useUserStore()
+  const handleItemCheckChange = async (checked: boolean, userId: string, currentDay: string) => {
+    const curDate = userStore.currentYear + '-' + userStore.currentMonth + '-' + currentDay
+    checked
+      ? await insertRecord({ userId: userId, createAt: curDate })
+      : await delRecord({ id: userId }) // TODO: recordId
+  }
   return {
     dateList,
     judgeChecked,
     judgeClass,
     findMaxDifference,
+    loadList,
     currentDate,
-    getDataByJson,
+    handleDelUser,
+    variables,
+    handleItemCheckChange,
   }
 }
 export { useRecord }

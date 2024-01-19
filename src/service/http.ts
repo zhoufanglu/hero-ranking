@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 
 const service = axios.create({
   delayed: true,
-  baseURL: `${import.meta.env.VITE_APP_WEB_URL}/hexo-ranking`,
+  baseURL: `${import.meta.env.VITE_APP_WEB_URL}/hero-ranking`,
   timeout: 10000,
   /*  paramsSerializer: {
     /!*    encode: (params) => {
@@ -33,8 +33,14 @@ service.interceptors.request.use(
 
 /** ********************响应拦截器***********************/
 service.interceptors.response.use(
-  (res: AxiosResponse) => {
-    return res.data
+  (res: any) => {
+    const { data } = res
+    if (data.code === 200) {
+      return data
+    } else {
+      ElMessage.error(data.message)
+      return Promise.reject(data)
+    }
   },
   (error) => {
     switch (error?.response?.status) {
