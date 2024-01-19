@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 
 const service = axios.create({
   delayed: true,
-  baseURL: `${import.meta.env.VITE_APP_WEB_URL}/`,
+  baseURL: `${import.meta.env.VITE_APP_WEB_URL}/hexo-ranking`,
   timeout: 10000,
   /*  paramsSerializer: {
     /!*    encode: (params) => {

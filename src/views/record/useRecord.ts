@@ -1,4 +1,6 @@
 import moment from 'moment'
+import axios from 'axios'
+
 const useRecord = () => {
   const currentDate = moment().format('YYYY-MM-DD')
   const curDayOnlyDay = currentDate.substring(currentDate.length - 2)
@@ -50,12 +52,17 @@ const useRecord = () => {
     return maxDiff
   }
 
+  const getDataByJson = () => {
+    return axios.get('/data.json')
+  }
+
   return {
     dateList,
     judgeChecked,
     judgeClass,
     findMaxDifference,
     currentDate,
+    getDataByJson,
   }
 }
 export { useRecord }
