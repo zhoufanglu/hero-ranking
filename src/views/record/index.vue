@@ -2,12 +2,14 @@
   import { useRecord } from './useRecord'
   import { ref } from 'vue'
   import UserDialog from '@/views/record/components/userDialog.vue'
+  import myMitt from '@/tools/mitt'
 
   const {
     variables,
     currentDate,
+    currentCheckMonth,
     dateList,
-    loadList,
+    loadRecords,
     handleDelUser,
     judgeClass,
     findMaxDifference,
@@ -25,9 +27,12 @@
     userDialogRef!.value!.openDialog()
   }
   const handleRefresh = () => {
-    loadList()
+    loadRecords()
   }
   const handleCheckChange = () => {}
+  myMitt.on('changeMonth', () => {
+    loadRecords()
+  })
 </script>
 
 <template>
@@ -66,7 +71,7 @@
         >
           <li v-for="date in theadList" :key="date">
             <span v-if="date === '用户'" class="display-span">
-              <el-link type="primary" class="el-link-user" @click="handleDelUser(item.id)">{{
+              <el-link type="primary" class="el-link-user" @click="handleDelUser(item.userId)">{{
                 item.name
               }}</el-link>
             </span>
@@ -75,9 +80,9 @@
             </span>
             <span v-else>
               <el-checkbox
-                :label="date"
+                :label="`${currentCheckMonth}-${date}`"
                 :disabled="Number(date) > Number(currentDate.split('-')[2])"
-                @change="handleItemCheckChange($event, item.id, date)"
+                @change="handleItemCheckChange($event, item.userId, item.records, date)"
               />
             </span>
           </li>

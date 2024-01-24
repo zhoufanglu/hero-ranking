@@ -1,8 +1,7 @@
 import moment from 'moment'
 import confirmDialog from '@/tools/confirmDialog'
-import { delUser, getUsers } from '@/service/api/modules/users'
-import { delRecord, insertRecord } from '@/service/api/modules/users'
-import type { UserItemType } from '@/views/record/types'
+import { delRecord, insertRecord, getRecordsByMonth, delUser } from '@/service/api/modules/users'
+import type { UserItemType, RecordItemType } from '@/views/record/types'
 
 const useRecord = () => {
   // 绑定变量
@@ -14,8 +13,12 @@ const useRecord = () => {
     loading: false,
   })
 
+  const userStore = useUserStore()
+
   const currentDate = moment().format('YYYY-MM-DD')
   const curDayOnlyDay = currentDate.substring(currentDate.length - 2)
+  // 当前选择的日期 YYYY-MM
+  const currentCheckMonth = computed(() => userStore.currentYear + '-' + userStore.currentMonth)
   function generateDateList() {
     const currentMonth = moment().month() // 获取当前月份（注意：月份是从0开始计数的，0表示1月，1表示2月，以此类推）
     const currentYear = moment().year() // 获取当前年份
@@ -65,9 +68,9 @@ const useRecord = () => {
   }
 
   // ? 获取用户列表
-  const loadList = () => {
+  /*  const loadList = () => {
     variables.loading = true
-    getUsers({})
+    getRecordsByMonth({})
       .then(({ data }: { data: any }) => {
         variables.userList = data.map((per: any) => {
           return {
@@ -81,31 +84,68 @@ const useRecord = () => {
         variables.loading = false
       })
   }
-  loadList()
+  loadList() */
+
+  // ? 获取当前月份的记录
+  const loadRecords = () => {
+    // 当前月份
+    variables.loading = true
+    getRecordsByMonth({
+      createAt: currentCheckMonth.value,
+    })
+      .then(({ data }: { data: any }) => {
+        variables.userList = data.map((per: any) => {
+          return {
+            userId: per.userId,
+            name: per.name,
+            rushDates: per.records.map((i: any) => i.date),
+            records: per.records,
+          }
+        })
+      })
+      .finally(() => {
+        variables.loading = false
+      })
+  }
+  loadRecords()
 
   const handleDelUser = (id: string) => {
     confirmDialog().then(() => {
       delUser({ id }).then(() => {
-        loadList()
+        loadRecords()
         ElMessage.success('删除成功')
       })
     })
   }
-
-  const userStore = useUserStore()
-  const handleItemCheckChange = async (checked: boolean, userId: string, currentDay: string) => {
+  /**
+   *
+   * @param checked
+   * @param userId
+   * @param records
+   * @param currentDay
+   */
+  const handleItemCheckChange = async (
+    checked: boolean,
+    userId: string,
+    records: RecordItemType[],
+    currentDay: string,
+  ) => {
     const curDate = userStore.currentYear + '-' + userStore.currentMonth + '-' + currentDay
+    // ?找出当前日期下的记录ID
+    const recordId = records.find((item) => item.date === curDate)?.id
     checked
       ? await insertRecord({ userId: userId, createAt: curDate })
-      : await delRecord({ id: userId }) // TODO: recordId
+      : await delRecord({ id: recordId || '' })
   }
+
   return {
     dateList,
     judgeChecked,
     judgeClass,
     findMaxDifference,
-    loadList,
+    loadRecords,
     currentDate,
+    currentCheckMonth,
     handleDelUser,
     variables,
     handleItemCheckChange,

@@ -81,6 +81,7 @@
     "watchSyncEffect": true,
     "useUserStore": true,
     "confirmDialog": true,
-    "ElMessage": true
+    "ElMessage": true,
+    "mitt": true
   }
 }

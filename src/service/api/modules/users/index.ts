@@ -47,6 +47,14 @@ export function getUsers(params: any): any {
   })
 }
 
+export function getRecordsByMonth(params: { createAt: string }): any {
+  return axios({
+    url: '/record/list',
+    method: 'get',
+    params,
+  })
+}
+
 export function insertRecord(data: { userId: string; createAt: string }): any {
   return axios({
     url: '/record/insert',

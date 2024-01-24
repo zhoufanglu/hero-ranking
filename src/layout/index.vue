@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import NavBar from '@/layout/NavBar.vue'
   import moment from 'moment'
+  import myMitt from '@/tools/mitt'
   /** ****************** **月份***********************/
   const monthList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
   const curMonth = monthList[moment().month()]
 
   const handleTabChange = (name: string) => {
-    // console.log(37, name)
+    myMitt.emit('changeMonth', name)
   }
   const userStore = useUserStore()
   userStore.setCurrentMonth(curMonth)
