@@ -7,11 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Function: typeof import('./src/views/record/study-ts/components/Function.vue')['default']
-    ReturnType: typeof import('./src/views/record/study-ts/components/ReturnType.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TestCom: typeof import('./src/components/TestCom.vue')['default']
     UserDialog: typeof import('./src/views/record/components/userDialog.vue')['default']
+    WebSocket: typeof import('./src/components/WebSocket.vue')['default']
   }
 }

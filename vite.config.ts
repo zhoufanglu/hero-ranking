@@ -52,11 +52,15 @@ export default ({ mode, command }: ConfigEnv) => {
     },
     server: {
       host: '0.0.0.0',
+      port: 9999,
     },
     build: {
       sourcemap: false,
       outDir: env.VITE_OUTPUT_DIR,
       assetsDir: 'assets',
+    },
+    define: {
+      __APP_VERSION__: JSON.stringify(1),
     },
   })
 }

@@ -1,8 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import webSocket from '@/components/WebSocket.vue'
+</script>
 
 <template>
   <div class="app">
-    <router-view></router-view>
+    <webSocket></webSocket>
+    <!--    <router-view></router-view>-->
   </div>
 </template>
 
