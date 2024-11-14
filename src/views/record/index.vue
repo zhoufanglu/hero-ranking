@@ -16,7 +16,7 @@
     handleItemCheckChange,
   } = useRecord()
 
-  const theadList = [...['用户'], ...dateList, '持久力']
+  const theadList = [...['用户'], ...dateList, '持久力', '总计']
 
   const userStore = useUserStore()
 
@@ -51,7 +51,7 @@
       </el-col>
       <el-col :span="12" :push="8">
         <el-button type="primary" @click="handleCreate">增加用户</el-button>
-        <el-button type="primary">删除用户</el-button>
+        <!--        <el-button type="primary">删除用户</el-button>-->
       </el-col>
     </el-row>
 
@@ -70,13 +70,16 @@
           @change="handleCheckChange"
         >
           <li v-for="date in theadList" :key="date">
-            <span v-if="date === '用户'" class="display-span">
+            <span v-if="date === '用户'" class="display-span" style="width: 70px">
               <el-link type="primary" class="el-link-user" @click="handleDelUser(item.userId)">{{
                 item.name
               }}</el-link>
             </span>
             <span v-else-if="date === '持久力'" class="display-span">
               {{ findMaxDifference(item.rushDates) }}
+            </span>
+            <span v-else-if="date === '总计'" class="display-span">
+              {{ item.records.filter((i) => i.id).length }}
             </span>
             <span v-else>
               <el-checkbox
@@ -101,6 +104,7 @@
       ul {
         display: flex;
         align-items: center;
+        flex-shrink: 0;
         li {
           text-align: center;
           padding: 6px 0;
@@ -114,6 +118,10 @@
             height: 32px;
             line-height: 32px;
           }
+        }
+        li:first-child {
+          flex: 2;
+          @include vertical-center;
         }
         &:nth-child(2n) {
           background-color: #f6f6f6;

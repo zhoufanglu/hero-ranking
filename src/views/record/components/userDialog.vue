@@ -7,9 +7,11 @@
     btnLoading: false,
     form: {
       name: '',
+      qq: '',
     },
     rules: {
       name: [{ required: true, message: '请输入入口名称', trigger: 'blur' }],
+      qq: [{ required: true, message: '请输入qq号', trigger: 'blur' }],
     } as FormRules,
   })
 
@@ -33,6 +35,7 @@
             variables.btnLoading = true
             await insertUser({
               name: variables.form.name,
+              qq: variables.form.qq,
             })
             variables.dialogVisible = false
             emit('refreshUserList')
@@ -63,6 +66,9 @@
     <el-form ref="UserFormRef" label-width="85px" :model="variables.form" :rules="variables.rules">
       <el-form-item label="名字:" prop="name">
         <el-input v-model="variables.form.name" />
+      </el-form-item>
+      <el-form-item label="qq号:" prop="qq">
+        <el-input v-model="variables.form.qq" />
       </el-form-item>
     </el-form>
     <!-- ?footer -->
