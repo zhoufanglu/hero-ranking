@@ -14,7 +14,7 @@
 
 <template>
   <div class="nav-bar">
-    <div class="left-logo" />
+    <div class="left-logo" @click="openGithub" />
     <div class="left-nav"> hand rush record ( {{ currentYear }}) </div>
     <div class="right-nav">
       <div class="user">
@@ -51,6 +51,7 @@
     height: var(--nav-bar-height);
 
     .left-logo {
+      cursor: pointer;
       background-color: black !important; /* 背景色为黑色 */
       width: 100px;
       height: 40px;
