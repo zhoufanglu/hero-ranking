@@ -38,7 +38,7 @@
 <template>
   <div class="p-record">
     <el-row style="margin-bottom: 20px">
-      <el-col :span="12" style="display: flex">
+      <el-col :span="12" style="display: flex; align-items: center">
         <h4>
           今天: <span style="color: #5386ed">{{ currentDate }} </span></h4
         >
@@ -47,6 +47,9 @@
           <span style="color: #5386ed"
             >{{ userStore.currentYear + '-' + userStore.currentMonth }}
           </span></h4
+        >
+        <el-text type="danger" style="margin-left: 20px"
+          >(注意： 请不要修改除自己之外的记录，感谢~)</el-text
         >
       </el-col>
       <el-col :span="12" :push="8">

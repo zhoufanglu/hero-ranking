@@ -14,6 +14,7 @@
 
 <template>
   <div class="nav-bar">
+    <div class="left-logo" />
     <div class="left-nav"> hand rush record ( {{ currentYear }}) </div>
     <div class="right-nav">
       <div class="user">
@@ -46,13 +47,25 @@
   .nav-bar {
     display: flex;
     width: 100%;
+    background-color: black !important;
     height: var(--nav-bar-height);
+
+    .left-logo {
+      background-color: black !important; /* 背景色为黑色 */
+      width: 100px;
+      height: 40px;
+      margin-top: 3px;
+      background: url('@/assets/imgs/logo.png') no-repeat center center;
+      background-size: contain;
+      outline: none;
+      border: none;
+    }
 
     .left-nav {
       height: 100%;
       display: flex;
       align-items: center;
-      background: #212834;
+      background: linear-gradient(to right, black, #212834);
       flex: 1 1 100%;
       color: white;
       font-size: 20px;
@@ -62,7 +75,7 @@
       .logo {
         width: 68px;
         height: 100%;
-        background: #212834;
+        background: black;
         display: flex;
         align-items: center;
         justify-content: center;
