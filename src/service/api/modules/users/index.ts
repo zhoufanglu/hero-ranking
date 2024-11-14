@@ -7,13 +7,6 @@ import { sleep } from '@/tools'
   method: 'put',
   data
 }) */
-export function login(params: any): any {
-  return axios({
-    url: '/alert-plugin-instances',
-    method: 'get',
-    params,
-  })
-}
 
 export function logout(params: any): any {
   return axios({
@@ -34,6 +27,14 @@ export function insertUser(data: any): any {
 export function delUser(data: any): any {
   return axios({
     url: '/user/delete',
+    method: 'post',
+    data,
+  })
+}
+
+export function login(data: { qq: string }): any {
+  return axios({
+    url: '/user/login',
     method: 'post',
     data,
   })

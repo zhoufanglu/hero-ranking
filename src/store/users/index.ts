@@ -4,7 +4,7 @@ import { UserType } from '@/store/users/type'
 const useUserStore = defineStore({
   id: 'userInfo',
   state: () => ({
-    userInfo: { password: '', username: '', token: '' } as UserType,
+    userInfo: { id: '', name: '', qq: '', isAdmin: 0 } as UserType,
     isRemember: false,
     currentYear: '',
     currentMonth: '',
@@ -21,12 +21,8 @@ const useUserStore = defineStore({
     },
     async logout() {
       // 清除缓token
-      this.setUserInfo({
-        username: this.userInfo.username,
-        password: this.userInfo.password,
-        token: '',
-      })
-      await logoutApi({})
+      this.setUserInfo({ id: '', name: '', qq: '', isAdmin: 0 })
+      // await logoutApi({})
       // router.push('/login')
     },
   },

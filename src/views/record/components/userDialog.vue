@@ -8,6 +8,7 @@
     form: {
       name: '',
       qq: '',
+      type: 'add',
     },
     rules: {
       name: [{ required: true, message: '请输入入口名称', trigger: 'blur' }],
@@ -18,7 +19,14 @@
   const UserFormRef = ref<FormInstance>()
   const emit = defineEmits(['refreshUserList'])
 
-  const openDialog = () => {
+  const openDialog = (userInfo?: any) => {
+    if (userInfo?.qq) {
+      variables.form.qq = userInfo!.qq
+      variables.form.name = userInfo!.name
+      variables.form.type = 'detail'
+    } else {
+      variables.form.type = 'add'
+    }
     variables.dialogVisible = true
     nextTick(() => {
       UserFormRef.value!.resetFields()
@@ -60,10 +68,16 @@
     :append-to-body="true"
     width="468"
     class="entry-dialog"
-    title="新增用户"
+    :title="`${variables.form.type === 'detail' ? '查看' : '新增'}用户`"
   >
     <!--?body-->
-    <el-form ref="UserFormRef" label-width="85px" :model="variables.form" :rules="variables.rules">
+    <el-form
+      ref="UserFormRef"
+      :disabled="variables.form.type === 'detail'"
+      label-width="85px"
+      :model="variables.form"
+      :rules="variables.rules"
+    >
       <el-form-item label="名字:" prop="name">
         <el-input v-model="variables.form.name" />
       </el-form-item>
@@ -73,7 +87,7 @@
     </el-form>
     <!-- ?footer -->
     <template #footer>
-      <span class="dialog-footer">
+      <span v-if="variables.form.type === 'add'" class="dialog-footer">
         <el-button @click="variables.dialogVisible = false">取消</el-button>
         <el-button type="primary" :loading="variables.btnLoading" @click="confirm">
           确认

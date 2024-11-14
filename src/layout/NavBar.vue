@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import moment from 'moment'
+  import LoginInfo from '@/components/LoginInfo.vue'
   // 获取当前日期时间
   const currentDateTime = moment()
   const userStore = useUserStore()
@@ -15,11 +16,10 @@
 <template>
   <div class="nav-bar">
     <div class="left-logo" @click="openGithub" />
-    <div class="left-nav"> hand rush record ( {{ currentYear }}) </div>
+    <div class="left-nav"> DNA EXPORT record {{ currentYear }}</div>
     <div class="right-nav">
       <div class="user">
         <i class="iconfont user-icon">&#xe603;</i>
-        <div>vue-element-admin</div>
         <svg
           style="margin-left: 20px; cursor: pointer"
           t="1731483708612"
@@ -38,6 +38,7 @@
             p-id="2737"
           ></path>
         </svg>
+        <login-info style="margin-left: 20px"></login-info>
       </div>
     </div>
   </div>
@@ -106,7 +107,10 @@
         color: #fefefe;
         font-size: 14px;
         font-weight: 400;
-        margin-right: 24px;
+        width: 200px;
+        // margin-right: 24px;
+        // border: solid 1px red;
+        justify-content: space-between;
 
         .user-icon {
           margin-right: 5px;

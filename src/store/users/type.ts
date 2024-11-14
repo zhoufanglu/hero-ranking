@@ -1,5 +1,8 @@
 interface UserType {
-  username?: string
+  id?: string
+  name?: string
+  qq?: string
+  isAdmin?: number
   password?: string
   token?: string
 }

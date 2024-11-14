@@ -3,6 +3,7 @@
   import { ref } from 'vue'
   import UserDialog from '@/views/record/components/userDialog.vue'
   import myMitt from '@/tools/mitt'
+  import { getUsers } from '@/service/api/modules/users'
 
   const {
     variables,
@@ -30,6 +31,14 @@
     loadRecords()
   }
   const handleCheckChange = () => {}
+
+  const openUserInfo = (userId: string) => {
+    getUsers({}).then(({ data }: { data: any }) => {
+      const userInfo = data.find((i: any) => i.id === userId)
+      userDialogRef!.value!.openDialog(userInfo)
+    })
+  }
+
   myMitt.on('changeMonth', () => {
     loadRecords()
   })
@@ -52,7 +61,7 @@
           >(注意： 请不要修改除自己之外的记录，感谢~)</el-text
         >
       </el-col>
-      <el-col :span="12" :push="8">
+      <el-col :span="12" :push="8" style="display: flex; align-items: center">
         <el-button type="primary" @click="handleCreate">增加用户</el-button>
         <!--        <el-button type="primary">删除用户</el-button>-->
       </el-col>
@@ -73,10 +82,15 @@
           @change="handleCheckChange"
         >
           <li v-for="date in theadList" :key="date">
-            <span v-if="date === '用户'" class="display-span" style="width: 70px">
-              <el-link type="primary" class="el-link-user" @click="handleDelUser(item.userId)">{{
-                item.name
-              }}</el-link>
+            <span v-if="date === '用户'" class="display-span user-column" style="width: 70px">
+              <el-link type="primary" @click="openUserInfo(item.userId)">{{ item.name }}</el-link>
+              <span
+                v-if="userStore.userInfo.isAdmin"
+                class="el-link-delete"
+                style="font-size: 12px; margin-left: 20px"
+                @click="handleDelUser(item.userId)"
+                >x</span
+              >
             </span>
             <span v-else-if="date === '持久力'" class="display-span">
               {{ findMaxDifference(item.rushDates) }}
@@ -87,7 +101,10 @@
             <span v-else>
               <el-checkbox
                 :label="`${currentCheckMonth}-${date}`"
-                :disabled="Number(date) > Number(currentDate.split('-')[2])"
+                :disabled="
+                  Number(date) > Number(currentDate.split('-')[2]) ||
+                  item.userId !== userStore.userInfo?.id
+                "
                 @change="handleItemCheckChange($event, item.userId, item.records, date)"
               />
             </span>
@@ -133,6 +150,22 @@
           background-color: #e6f7ff;
         }
       }
+      .user-column {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        .el-link {
+          color: #5386ed;
+        }
+        .el-link-delete {
+          cursor: pointer;
+          &:hover {
+            color: #5386ed;
+          }
+        }
+      }
       .checkbox-row {
         @extend ul;
         width: 100%;
@@ -144,7 +177,7 @@
     }
   }
 </style>
-<style>
+<style lang="scss">
   .p-record {
     .el-checkbox__label {
       display: none;
@@ -152,6 +185,29 @@
     .el-link-user {
       color: #5386ed;
       font-size: 16px;
+    }
+  }
+  .el-checkbox.is-disabled.is-checked {
+    .el-checkbox__inner {
+      // border: solid 1px red !important;
+      background-color: #409eff;
+    }
+    .el-checkbox__inner::after {
+      border: solid 1px white !important;
+      color: white !important;
+      box-sizing: content-box;
+      font-weight: bolder;
+      border-left: 0;
+      border-top: 0;
+      height: 7px;
+      left: 4px;
+      position: absolute;
+      top: 1px;
+      //  transform: rotate(45deg) scaleY(0);
+      width: 3px;
+      transition: transform 0.15s ease-in 50ms;
+      transform-origin: center;
+      //transform: rotate(45deg) scaleY(1);
     }
   }
 </style>
