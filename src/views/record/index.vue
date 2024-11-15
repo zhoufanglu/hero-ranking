@@ -57,8 +57,8 @@
             >{{ userStore.currentYear + '-' + userStore.currentMonth }}
           </span></h4
         >
-        <el-text type="danger" style="margin-left: 20px"
-          >(注意： 请不要修改除自己之外的记录，感谢~)</el-text
+        <el-text v-if="!userStore.userInfo.qq" type="danger" style="margin-left: 20px"
+          >(注： 右上角qq号登录后可以编辑~)</el-text
         >
       </el-col>
       <el-col :span="12" :push="8" style="display: flex; align-items: center">

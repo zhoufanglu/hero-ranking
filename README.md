@@ -7,9 +7,12 @@
 - [服务端](https://github.com/zhoufanglu/hexo-ranking-server)
 
 # todo
-[ ] 用qq号登录  
+[x] 用qq号登录  
 [ ] 只能修改自己的账号  
 [ ] 排名多元化   
+
+# release
+- `2024-11-15` 增加了qq号登录功能
 
 # 欢迎提pr
 * 遵循 eslint prettier 规则
