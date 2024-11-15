@@ -26,11 +26,11 @@
       variables.form.type = 'detail'
     } else {
       variables.form.type = 'add'
+      nextTick(() => {
+        UserFormRef.value!.resetFields()
+      })
     }
     variables.dialogVisible = true
-    nextTick(() => {
-      UserFormRef.value!.resetFields()
-    })
   }
 
   const confirm = async () => {
